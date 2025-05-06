@@ -1,0 +1,20 @@
+defaults:
+  link:
+    from: "nobe4/ln-source:"
+
+links:
+  - from: .github/workflows/ln.yaml
+
+  - from: go/.github/ln-config.yaml
+    to: .github/ln-config.yaml
+
+  - from: script/tag-release
+
+  - from: go/script/lint
+    to: script/lint
+
+  - from: go/script/test
+    to: script/test
+
+  - from: go/.golangci.yaml
+    to: .golangci.yaml
