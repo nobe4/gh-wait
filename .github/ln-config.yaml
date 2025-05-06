@@ -3,8 +3,6 @@ defaults:
     from: "nobe4/ln-source:"
 
 links:
-  - from: .github/workflows/ln.yaml
-
   - from: go/.github/ln-config.yaml
     to: .github/ln-config.yaml
 
