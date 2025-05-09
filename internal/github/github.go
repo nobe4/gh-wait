@@ -18,7 +18,7 @@ var (
 type Pull struct {
 	Owner  string
 	Repo   string
-	Number int
+	Number int32
 }
 
 func ParsePull(url string) (Pull, error) {
@@ -31,12 +31,12 @@ func ParsePull(url string) (Pull, error) {
 		return Pull{}, fmt.Errorf("%w: %s", ErrInvalidPullURL, url)
 	}
 
-	n, err := strconv.Atoi(matches[3])
+	n, err := strconv.ParseInt(matches[3], 10, 32)
 	if err != nil {
 		return Pull{}, fmt.Errorf("%w: %s", ErrInvalidPullURL, url)
 	}
 
-	return Pull{Owner: matches[1], Repo: matches[2], Number: n}, nil
+	return Pull{Owner: matches[1], Repo: matches[2], Number: int32(n)}, nil
 }
 
 func (p Pull) String() string {
