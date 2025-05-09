@@ -115,5 +115,5 @@ func run(delay int, clr bool, condition, url string) error {
 }
 
 func clearScreen() {
-	// TODO: clear screen
+	fmt.Fprint(os.Stdout, "\033[2J")
 }
