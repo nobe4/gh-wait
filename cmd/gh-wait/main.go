@@ -16,7 +16,14 @@ import (
 )
 
 const (
-	minDelay = 10
+	minDelay   = 10
+	conditions = `
+  approved: check if the pull request is approved
+  closed:   check if the pull request is closed
+  green:    check if the pull request's CI is green
+  merged:   check if the pull request is merged
+  ready:    approved + green
+`
 )
 
 func main() {
@@ -26,9 +33,9 @@ func main() {
 	versionFlag := flag.Bool("version", false, "show version")
 
 	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [FLAGS]\nFlags:\n", os.Args[0])
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [FLAGS] URL\n\nFlags:\n", os.Args[0])
 		flag.PrintDefaults()
-		fmt.Fprintf(flag.CommandLine.Output(), "Conditions:\n%s", "todo")
+		fmt.Fprintf(flag.CommandLine.Output(), "\nConditions:%s", conditions)
 	}
 	flag.Parse()
 
