@@ -5,6 +5,7 @@ import (
 	"github.com/nobe4/gh-wait/internal/checker/closed"
 	"github.com/nobe4/gh-wait/internal/checker/green"
 	"github.com/nobe4/gh-wait/internal/checker/merged"
+	"github.com/nobe4/gh-wait/internal/checker/ready"
 	"github.com/nobe4/gh-wait/internal/github"
 )
 
@@ -19,5 +20,6 @@ func Get(name string) Checker {
 		"closed":   closed.Checker{},
 		"green":    green.Checker{},
 		"merged":   merged.Checker{},
+		"ready":    ready.Checker{},
 	}[name]
 }
