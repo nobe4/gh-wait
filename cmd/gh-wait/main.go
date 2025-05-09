@@ -49,6 +49,7 @@ func main() {
 	}
 }
 
+//revive:disable:cognitive-complexity // TODO: refactor.
 func run(delay int, clr bool, condition, url string) error {
 	p, err := github.ParsePull(url)
 	if err != nil {
@@ -99,7 +100,11 @@ func run(delay int, clr bool, condition, url string) error {
 		}
 	}()
 
-	return loop.Loop(ctx)
+	if err := loop.Loop(ctx); err != nil {
+		return fmt.Errorf("error in loop: %w", err)
+	}
+
+	return nil
 }
 
 func clearScreen() {
