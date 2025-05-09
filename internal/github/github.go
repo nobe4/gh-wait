@@ -16,8 +16,9 @@ var (
 )
 
 type Pull struct {
-	Repo   string // format: "owner/repo"
-	Number int
+	Owner  string
+	Repo   string
+	Number int32
 }
 
 func ParsePull(url string) (Pull, error) {
@@ -30,20 +31,20 @@ func ParsePull(url string) (Pull, error) {
 		return Pull{}, fmt.Errorf("%w: %s", ErrInvalidPullURL, url)
 	}
 
-	n, err := strconv.Atoi(matches[3])
+	n, err := strconv.ParseInt(matches[3], 10, 32)
 	if err != nil {
 		return Pull{}, fmt.Errorf("%w: %s", ErrInvalidPullURL, url)
 	}
 
-	return Pull{Repo: matches[1] + "/" + matches[2], Number: n}, nil
+	return Pull{Owner: matches[1], Repo: matches[2], Number: int32(n)}, nil
 }
 
 func (p Pull) String() string {
-	return fmt.Sprintf("%s#%d", p.Repo, p.Number)
+	return fmt.Sprintf("%s/%s#%d", p.Owner, p.Repo, p.Number)
 }
 
 func (p Pull) APIString() string {
-	return fmt.Sprintf("repos/%s/pulls/%d", p.Repo, p.Number)
+	return fmt.Sprintf("repos/%s/%s/pulls/%d", p.Owner, p.Repo, p.Number)
 }
 
 func Get(path string, resp any) error {
@@ -53,6 +54,19 @@ func Get(path string, resp any) error {
 	}
 
 	if err := c.Get(path, resp); err != nil {
+		return fmt.Errorf("%w: %w", ErrRequest, err)
+	}
+
+	return nil
+}
+
+func GraphQL(q any, variables map[string]any) error {
+	c, err := api.DefaultGraphQLClient()
+	if err != nil {
+		return fmt.Errorf("%w: %w", ErrCreateClient, err)
+	}
+
+	if err := c.Query("", q, variables); err != nil {
 		return fmt.Errorf("%w: %w", ErrRequest, err)
 	}
 
