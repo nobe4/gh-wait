@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - main: ./cmd/{{ .ProjectName }}
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+
+archives:
+  - name_template: "{{ .Os }}-{{ .Arch }}"
+    formats: binary
+
+snapshot:
+  version_template: "{{ .Tag }}-next"
+
+changelog:
+  use: github-native
+
+release:
+  draft: false
