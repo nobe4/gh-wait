@@ -14,6 +14,9 @@ links:
   - from: go/script/test
     to: script/test
 
+  - from: go/script/build
+    to: script/build
+
   - from: go/.golangci.yaml
     to: .golangci.yaml
 
