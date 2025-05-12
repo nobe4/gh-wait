@@ -3,8 +3,8 @@ defaults:
     from: "nobe4/ln-source:"
 
 links:
-  - from: go/.github/ln-config.yaml
-    to: .github/ln-config.yaml
+  - from: go/.ln-config.yaml
+    to: .ln-config.yaml
 
   - from: script/tag-release
 
@@ -16,3 +16,6 @@ links:
 
   - from: go/.golangci.yaml
     to: .golangci.yaml
+
+  - from: go/.goreleaser.yaml
+    to: .goreleaser.yaml
